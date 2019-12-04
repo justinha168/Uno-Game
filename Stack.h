@@ -1,7 +1,8 @@
 //Name: Justin Ha
 //ID: 1658230
 
-define
+#ifndef Stack_h
+#define Stack_h
 
 #include <random>
 #include <algorithm>
@@ -13,7 +14,7 @@ class Stack
 {
 	V* values;
 	int cap;
-	int size; //track size
+	int siz; //track size
 	bool randomInitialized;
 	void capacity(int);
 
@@ -35,7 +36,7 @@ template <typename V>
 Stack<V>::Stack(int cap)
 {
 	this->cap = cap;
-	size = 0;
+	siz = 0;
 	values = new V[cap];
 	for (int i = 0; i < cap; i++)
 	{
@@ -52,7 +53,7 @@ template <typename V>
 Stack<V>::Stack(const Stack<V>& original)
 {
 	cap = original.cap;
-	size = original.size;
+	siz = original.siz;
 	values = new V[cap];
 	for (int i = 0; i < cap; i++)
 	{
@@ -67,7 +68,7 @@ Stack<V>& Stack<V>::operator=(const Stack<V>& original)
 	{
 		delete[] this->values;
 		this->cap = original.cap;
-		this->size = original.size;
+		this->size = original.siz;
 		this->values = new V[original.cap];
 		for (int i = 0; i < original.cap; i++)
 		{
@@ -80,11 +81,11 @@ Stack<V>& Stack<V>::operator=(const Stack<V>& original)
 template <typename V>
 void Stack<V>::push(const V& value)
 {
-	if (size == cap)
+	if (siz == cap)
 	{
 		capacity(2 * cap);
 	}
-	values[size] = value;
+	values[siz] = value;
 }
 
 template <typename V>
@@ -92,11 +93,11 @@ void Stack<V>::capacity(int cap)
 {
 	V* temp = new V[cap];
 
-	for (int i = 0; i < size; i++)
+	for (int i = 0; i < siz; i++)
 	{
 		temp[i] = values[i];
 	}
-	for (int i = size; i < cap; i++)
+	for (int i = siz; i < cap; i++)
 	{
 		temp[i] = V();
 	}
@@ -109,9 +110,9 @@ void Stack<V>::capacity(int cap)
 template <typename V>
 const V& Stack<V>::peek() const
 {
-	if (size > 0)
+	if (siz > 0)
 	{
-		return values[size--];
+		return values[siz--];
 	}
 	return V();
 }
@@ -119,13 +120,13 @@ const V& Stack<V>::peek() const
 template <typename V>
 int Stack<V>::size() const
 {
-	return size;
+	return siz;
 }
 
 template <typename V>
 bool Stack<V>::empty() const
 {
-	if (size == 0)
+	if (siz == 0)
 	{
 		return true;
 	}
@@ -135,12 +136,14 @@ bool Stack<V>::empty() const
 template <typename V>
 void Stack<V>::shuffle() const
 {
-	if (this->size == 0)
+	if (this->siz == 0)
 	{
 		return;
 	}
-	for (int i = 0; i < (this->size * this->size); i++)
+	for (int i = 0; i < (this->siz * this->siz); i++)
 	{
-		swap(values[rand() % this->size], values[rand() % this->size]);
+		swap(values[rand() % this->siz], values[rand() % this->siz]);
 	}
 }
+
+#endif
